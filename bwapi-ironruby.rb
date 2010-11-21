@@ -1,4 +1,4 @@
-require 'bwapi-clr'
+require 'bwapi'
 
 class BwapiRuby
 	include BWAPI

@@ -1,3 +1,5 @@
+require 'bwapi-ironruby'
+
 class TestAI
 	def on_start
 		puts "Match started"
@@ -11,3 +13,5 @@ class TestAI
 		#ignore for now
 	end
 end
+
+BwapiRuby.run TestAI.new
