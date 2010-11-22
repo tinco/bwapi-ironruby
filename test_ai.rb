@@ -6,6 +6,7 @@ class TestAI
 		starcraft = BWAPI::Bwapi.Broodwar
 		player = starcraft.self
 		units = player.getUnits
+
 		#send each worker to the mineral field that is closest to it
 		units.select {|u| u.getType.isWorker}.each do |w|
 			closest_mineral = nil
@@ -17,27 +18,23 @@ class TestAI
 			w.rightClick(closest_mineral)
 		end
 
-    <<-TODO
-      	 else if ((*i)->getType().isResourceDepot())
-        {
-          //if this is a center, tell it to build the appropiate type of worker
-          if ((*i)->getType().getRace()!=Races::Zerg)
-          {
-            (*i)->train(Broodwar->self()->getRace().getWorker());
-          }
-          else //if we are Zerg, we need to select a larva and morph it into a drone
-          {
-            std::set<Unit*> myLarva=(*i)->getLarva();
-            if (myLarva.size()>0)
-            {
-              Unit* larva=*myLarva.begin();
-              larva->morph(UnitTypes::Zerg_Drone);
-            }
-       TODO
+		center = units.select{|u|u.getType.isResourceDepot}.first
+		return unless center
+		puts "found a center"
+		#if this is a center, tell it to build the appropiate type of worker
+		if center.getType.getRace != Bwapi.Races_Zerg
+			puts "training at center"
+			center.train(starcraft.self.getRace.getWorker)
+		else
+			center.getLarva.first do |l|
+				puts "spawning from larva"
+				l.morph(Bwapi.UnitTypes_Zerg_Drone)
+			end
+		end
 	end
 
 	def on_frame
-		
+
 	end
 
 	def method_missing(name, *arguments)

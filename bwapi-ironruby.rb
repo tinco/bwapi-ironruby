@@ -27,8 +27,7 @@ class BwapiRuby
 			end
 		end
 
-		while true do
-			puts "In a match!"
+		while client.isConnected do
 			while(Bwapi.Broodwar.isInGame) do
 				Bwapi.Broodwar.getEvents.each do |e|
 					case e.type
@@ -92,6 +91,7 @@ class BwapiRuby
 					reconnect
 				end
 			end #while ingame?
-		end #while true
+			client.update
+		end #while connected
 	end #run
 end #BwapiRuby
